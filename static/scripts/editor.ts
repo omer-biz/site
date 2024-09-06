@@ -17,6 +17,9 @@ const outputDom =
   document.querySelector<HTMLTextAreaElement>(".editor-output")!;
 const modeBtn = document.querySelector<HTMLButtonElement>("#modeBtn")!;
 const formatBtn = document.querySelector<HTMLButtonElement>("#formatBtn")!;
+const editorInputSelect = document.querySelector<HTMLSelectElement>(
+  ".editor-input-select",
+);
 
 const windowHeight = window.innerHeight;
 
@@ -146,6 +149,11 @@ function getSavedCode() {
   return parsed || { grammar: "", input: "" };
 }
 
+function saveRule() {
+  const selectedRule = editorInputSelect?.value || "";
+  localStorage.setItem("last-selected-rule", selectedRule);
+}
+
 function wideMode() {
   modeBtn.onclick = restore;
   modeBtn.innerText = "Normal Mode";
@@ -186,3 +194,4 @@ init().then(() => {
 
 inputTextDom.addEventListener("input", saveCode);
 myCodeMirror.on("change", saveCode);
+editorInputSelect?.addEventListener("change", saveRule);

@@ -41,6 +41,14 @@ fn create_element<T: JsCast>(tag: &str) -> T {
         .expect_throw("wrong element type")
 }
 
+fn storage() -> web_sys::Storage {
+    web_sys::window()
+        .unwrap_throw()
+        .local_storage()
+        .unwrap_throw()
+        .unwrap_throw()
+}
+
 fn listen_for_input() {
     let input = element::<Node>(".editor-input-text");
 
@@ -321,6 +329,12 @@ pub fn lint(grammar: JsValue) -> JsValue {
 
 #[wasm_bindgen(start)]
 pub fn start() {
+    if let Ok(last_selected) = storage().get_item("last-selected-rule") {
+        unsafe {
+            LAST_SELECTION = last_selected;
+        }
+    }
+
     listen_for_input();
 }
 
