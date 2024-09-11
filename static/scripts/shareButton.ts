@@ -45,7 +45,9 @@ function tryLoadFromShareLink(codeMirror) {
       "textarea.editor-input-text",
     )!;
     inputEditor.value = decoded["input"];
-    localStorage.setItem("last-selected-rule", decoded["selectedRule"]);
+    if (decoded["selectedRule"]) {
+      localStorage.setItem("last-selected-rule", decoded["selectedRule"]);
+    }
   }
 }
 
